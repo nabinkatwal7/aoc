@@ -21,6 +21,17 @@ func calculateSmallestArea (dimensions Dimensions) (int){
 	return numbers[0] * numbers[1]
 }
 
+func calculateSmallestPerimeter (dimensions Dimensions) (int){
+	numbers := []int{dimensions.Length, dimensions.Width, dimensions.Height}
+
+	sort.Ints(numbers)
+	return 2 * numbers[0] + 2 * numbers[1]
+}
+
+func calculateCubicFeet (dimensions Dimensions) (int){
+	return dimensions.Length * dimensions.Width * dimensions.Height
+}
+
 func RunTwo() {
 	input, err := os.ReadFile("inputs/2-IWasToldThereWouldBeNoMath.txt")
 
@@ -28,6 +39,8 @@ func RunTwo() {
 
 	var surfaceArea = 0
 	var smallestArea = 0
+	var smallestPerimeter = 0
+	var cubicFeet = 0
 
 	if err != nil {
 		panic(err)
@@ -69,9 +82,16 @@ func RunTwo() {
 		surfaceArea += 2 * dimensions[i].Length * dimensions[i].Width + 2 * dimensions[i].Width * dimensions[i].Height + 2 * dimensions[i].Height * dimensions[i].Length
 
 		smallestArea += calculateSmallestArea(dimensions[i])
+		smallestPerimeter += calculateSmallestPerimeter(dimensions[i])
+		cubicFeet += calculateCubicFeet(dimensions[i])
 	}
 
 	fmt.Println(surfaceArea)
 	fmt.Println(smallestArea)
 	fmt.Println("Total area is", surfaceArea + smallestArea)
+
+	fmt.Println("Ribbon required is ", smallestPerimeter)
+	fmt.Println("Cubic feet for bolt is ", cubicFeet)
+
+	fmt.Println("Total cubic feet is ", smallestPerimeter + cubicFeet)
 }
