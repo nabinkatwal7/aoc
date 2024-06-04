@@ -6,15 +6,10 @@ import (
 )
 
 func countUniqueCoordinates(coords []string) int {
-  // Create a map to store coordinates as keys
   uniqueCoords := make(map[interface{}]bool)
-  
-  // Iterate through the coord_list
   for _, coord := range coords {
     uniqueCoords[coord] = true
   }
-  
-  // Return the length of the map (number of unique keys)
   return len(uniqueCoords)
 }
 
