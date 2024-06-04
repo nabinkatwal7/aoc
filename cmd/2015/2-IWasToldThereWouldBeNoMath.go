@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -13,51 +14,64 @@ type Dimensions struct {
 	Height int
 }
 
-func separateDimensions(data string) []Dimensions {
-	lines := strings.Split(data, "\n")
+func calculateSmallestArea (dimensions Dimensions) (int){
+	numbers := []int{dimensions.Length, dimensions.Width, dimensions.Height}
 
-	var dimensions []Dimensions
-
-	for _, line := range lines {
-		values := strings.Fields(line)
-		individualValues := strings.Split(values[0], "x")
-		
-		l, err := strconv.Atoi(individualValues[0])
-
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-
-		w, err := strconv.Atoi(individualValues[1])
-
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-
-		h, err := strconv.Atoi(individualValues[2])
-
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-
-		dimensions = append(dimensions, Dimensions{l, w, h})
-	}
-	return dimensions
+	sort.Ints(numbers)
+	return numbers[0] * numbers[1]
 }
 
 func RunTwo() {
 	input, err := os.ReadFile("inputs/2-IWasToldThereWouldBeNoMath.txt")
 
+	var dimensions []Dimensions
+
+	var surfaceArea = 0
+	var smallestArea = 0
+
 	if err != nil {
 		panic(err)
 	}
 
-	allDimensions := separateDimensions(string(input))
+	split := strings.Split(string(input), "\n")
 
-	for _, dim := range allDimensions {
-		fmt.Printf("l: %d, w: %d, h: %d\n", dim.Length, dim.Width, dim.Height)
+	for i := 0; i < len(split); i++ {
+		spaceSplit := strings.Split(split[i], " ")
+		multiplySplit := strings.Split(spaceSplit[0], "x")
+
+		if len(multiplySplit) != 3 {
+			fmt.Printf("Error on line %d\n", i)
+			continue
+		}
+
+		l, err := strconv.Atoi(multiplySplit[0])
+
+		if err != nil {
+			panic(err)
+		}
+
+		w, err := strconv.Atoi(multiplySplit[1])
+
+		if err != nil {
+			panic(err)
+		}
+
+		h, err := strconv.Atoi(multiplySplit[2])
+
+		if err != nil {
+			panic(err)
+		}
+
+		dimensions = append(dimensions, Dimensions{l, w, h})
 	}
+
+	for i := 0; i < len(dimensions); i++ {
+		surfaceArea += 2 * dimensions[i].Length * dimensions[i].Width + 2 * dimensions[i].Width * dimensions[i].Height + 2 * dimensions[i].Height * dimensions[i].Length
+
+		smallestArea += calculateSmallestArea(dimensions[i])
+	}
+
+	fmt.Println(surfaceArea)
+	fmt.Println(smallestArea)
+	fmt.Println("Total area is", surfaceArea + smallestArea)
 }
