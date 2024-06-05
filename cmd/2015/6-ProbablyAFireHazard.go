@@ -16,7 +16,7 @@ func (c coordinate) String() string {
 	return fmt.Sprintf("(%d, %d)", c.x, c.y)
 }
 
-func extractXY(s string) (int, int){
+func extractXY(s string) (int, int) {
 	parts := strings.Split(s, ", ")
 	if len(parts) != 2 {
 		panic("Invalid input")
@@ -36,7 +36,7 @@ func extractXY(s string) (int, int){
 	return a, b
 }
 
-func RunSix(){
+func RunSix() {
 	b, err := os.ReadFile("inputs/day6.txt")
 
 	if err != nil {
@@ -48,8 +48,8 @@ func RunSix(){
 
 	fmt.Println("Initializing grid")
 
-	for x:=0; x<1000; x++ {
-		for y:=0; y<1000; y++ {
+	for x := 0; x < 1000; x++ {
+		for y := 0; y < 1000; y++ {
 			lightGrid[fmt.Sprintf("%d,%d", x, y)] = 0
 		}
 	}
@@ -68,7 +68,7 @@ func RunSix(){
 	}
 
 	fmt.Printf("Lights on: %d\n", lightOnCount)
-	
+
 }
 
 func runInstruction(grid map[string]int, instruction string) {
@@ -105,4 +105,5 @@ func runInstruction(grid map[string]int, instruction string) {
 			}
 		}
 	}
-} 
+}
+
